@@ -1,8 +1,8 @@
 name: Test Release
 on: 
-  push:
-    branches:
-      - main
+  #push:
+  #  branches:
+  #    - main
   workflow_dispatch:
 jobs:
   Release:
@@ -31,10 +31,10 @@ jobs:
           path: src
           version: ${{ steps.gitversion.outputs.NuGetVersionV2 }}
           copyright: (c) YYYY Nate Scherer. All rights reserved.
-      - name: Publish Module to Cloudsmith
-        uses: natescherer/publish-powershell-action@v1
-        with:
-          token: ${{ secrets.CLOUDSMITH_KEY }}
-          target: nuget
-          nugetUrl: https://nuget.cloudsmith.io/${{ env.LOWERCASE_REPOSITORY }}/v3/index.json
-          path: src
+      #- name: Publish Module to Cloudsmith
+      #  uses: natescherer/publish-powershell-action@v1
+      #  with:
+      #    token: ${{ secrets.CLOUDSMITH_KEY }}
+      #    target: nuget
+      #    nugetUrl: https://nuget.cloudsmith.io/${{ env.LOWERCASE_REPOSITORY }}/v3/index.json
+      #    path: src
