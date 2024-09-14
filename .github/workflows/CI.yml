@@ -35,8 +35,8 @@ jobs:
           report_name: TestResults_${{ runner.os }}_${{ matrix.shell }}
           coverage_paths: src\private,src\public
           coverage_report_name: CoverageResults_${{ runner.os }}_${{ matrix.shell }}
-      - name: Upload to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
+      #- name: Upload to Codecov
+      #  uses: codecov/codecov-action@v3
+      #  with:
+      #    token: ${{ secrets.CODECOV_TOKEN }}
+      #    fail_ci_if_error: true
