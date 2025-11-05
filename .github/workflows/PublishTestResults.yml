@@ -31,11 +31,16 @@ jobs:
           - os: macos-latest
             shell: powershell
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
+        with:
+          egress-policy: audit
+
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
       - name: Run Pester Tests
         id: pester
-        uses: natescherer/pester-tests-report@combined
+        uses: natescherer/pester-tests-report@784ce7ee677a1f66ea92929c323ba6b065c1a9dd # combined
         with:
           shell: ${{ matrix.shell }}
           skip_check_run: true
@@ -48,7 +53,7 @@ jobs:
           coverage_page: true
           coverage_page_badge_label: Code Coverage
       - name: Upload Pages Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: ${{ runner.os }}_${{ matrix.shell }}
           path: ${{ steps.pester.outputs.pages_path }}
@@ -65,14 +70,19 @@ jobs:
     runs-on: ubuntu-latest
     needs: Test
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
+        with:
+          egress-policy: audit
+
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
       - name: Download Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           path: testreports
       - name: Write File
-        uses: DamianReeves/write-file-action@v1.3
+        uses: DamianReeves/write-file-action@6929a9a6d1807689191dcc8bbe62b54d70a32b42 # v1.3
         with:
           path: _config.yml
           contents: |
@@ -86,16 +96,16 @@ jobs:
               - jekyll-remote-theme
               - jemoji
       - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
+        uses: actions/jekyll-build-pages@44a6e6beabd48582f863aeeb6cb2151cc1716697 # v1.0.13
         with:
           source: .
           destination: ./_site
       - name: Generate Directory Listings
-        uses: jayanta525/github-pages-directory-listing@v4.0.0
+        uses: jayanta525/github-pages-directory-listing@624ac8c4e56893256d3772f61a88e3b14d54314e # v4.0.0
         with:
           FOLDER: ./_site
       - name: Upload Combined Pages Artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
